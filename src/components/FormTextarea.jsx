@@ -86,7 +86,7 @@ const FormTextarea = ({
             setIsFocused(false);
             if (props.onBlur) props.onBlur(e);
           }}
-          placeholder={compact ? (hasValue || isFocused ? '' : placeholder) : placeholder}
+          placeholder={compact ? (hasValue || isFocused ? placeholder : '') : placeholder}
           required={required}
           rows={autoResize ? undefined : rows}
           maxLength={maxLength}

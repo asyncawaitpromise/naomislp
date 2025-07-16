@@ -74,7 +74,7 @@ const FormSelect = ({
           {...props}
         >
           <option value="" disabled className="text-gray-400">
-            {placeholder}
+            {compact ? (hasValue || isFocused ? placeholder : '') : placeholder}
           </option>
           {options.map((option) => (
             <option key={option.value} value={option.value} className="text-gray-900">
