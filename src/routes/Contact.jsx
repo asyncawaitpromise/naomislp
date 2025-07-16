@@ -250,34 +250,26 @@ const Contact = () => {
               </div>
               
               {submitSuccess && (
-                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
-                  <div className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
-                    <div>
-                      <h4 className="text-green-800 font-semibold mb-1">Message sent successfully!</h4>
-                      <p className="text-green-700 text-sm">
-                        Thank you for reaching out. We'll respond within 24 hours. For urgent matters, please call us directly.
-                      </p>
-                    </div>
+                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                    <p className="text-green-800 text-sm font-medium">Message sent! We'll respond within 24 hours.</p>
                   </div>
                 </div>
               )}
               
               {submitError && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-                  <div className="flex items-start">
-                    <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
-                    <div>
-                      <h4 className="text-red-800 font-semibold mb-1">Message failed to send</h4>
-                      <p className="text-red-700 text-sm">{submitError}</p>
-                    </div>
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="flex items-center">
+                    <AlertCircle className="w-4 h-4 text-red-500 mr-2 flex-shrink-0" />
+                    <p className="text-red-800 text-sm font-medium">{submitError}</p>
                   </div>
                 </div>
               )}
               
-              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-                {/* Mobile-first: Single column on small screens */}
-                <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6">
+              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                {/* Enhanced inline layout */}
+                <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
                   <FormInput
                     label="Full Name"
                     type="text"
@@ -291,6 +283,7 @@ const Contact = () => {
                     success={touched.name && !errors.name && formData.name ? 'Looks good!' : ''}
                     autoComplete="name"
                     maxLength={50}
+                    compact={true}
                   />
                   
                   <FormInput
@@ -306,33 +299,38 @@ const Contact = () => {
                     success={touched.email && !errors.email && formData.email ? 'Looks good!' : ''}
                     autoComplete="email"
                     inputMode="email"
+                    compact={true}
                   />
                 </div>
                 
-                <FormInput
-                  label="Phone Number"
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  placeholder="(555) 123-4567"
-                  error={touched.phone ? errors.phone : ''}
-                  success={touched.phone && !errors.phone && formData.phone ? 'Looks good!' : ''}
-                  helpText="Optional - We'll use this for scheduling calls"
-                  autoComplete="tel"
-                  inputMode="tel"
-                />
-                
-                <FormSelect
-                  label="Service Interest"
-                  name="serviceType"
-                  value={formData.serviceType}
-                  onChange={handleInputChange}
-                  options={serviceOptions}
-                  placeholder="Select a service (optional)"
-                  helpText="Help us prepare for your consultation"
-                />
+                <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
+                  <FormInput
+                    label="Phone Number"
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    placeholder="(555) 123-4567"
+                    error={touched.phone ? errors.phone : ''}
+                    success={touched.phone && !errors.phone && formData.phone ? 'Looks good!' : ''}
+                    helpText="Optional"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    compact={true}
+                  />
+                  
+                  <FormSelect
+                    label="Service Interest"
+                    name="serviceType"
+                    value={formData.serviceType}
+                    onChange={handleInputChange}
+                    options={serviceOptions}
+                    placeholder="Select service (optional)"
+                    helpText="Help us prepare"
+                    compact={true}
+                  />
+                </div>
                 
                 <FormTextarea
                   label="Message"
@@ -344,10 +342,12 @@ const Contact = () => {
                   required
                   error={touched.message ? errors.message : ''}
                   success={touched.message && !errors.message && formData.message ? 'Great detail!' : ''}
-                  rows={5}
+                  rows={3}
                   maxLength={1000}
                   showCounter
-                  helpText="Be as detailed as possible to help us understand your needs"
+                  helpText="Be as detailed as possible"
+                  autoResize={true}
+                  compact={true}
                 />
                 
                 <div className="pt-4">
