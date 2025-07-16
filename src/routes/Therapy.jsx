@@ -1,4 +1,10 @@
 import { Heart, Users, Clock, Target, CheckCircle, AlertCircle, Book, Mic, Activity, Zap, Layers, TrendingUp } from 'react-feather';
+import Hero from '../components/Hero';
+import Container from '../components/Container';
+import Section from '../components/Section';
+import Card from '../components/Card';
+import Button from '../components/Button';
+import SectionHeader from '../components/SectionHeader';
 
 const Therapy = () => {
   const treatmentStages = [
@@ -85,46 +91,41 @@ const Therapy = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
-          <div className="absolute bottom-10 right-10 w-48 h-48 bg-white/5 rounded-full blur-2xl"></div>
-        </div>
-        <div className="relative max-w-6xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full mb-8">
-            <Activity className="w-5 h-5 mr-2" />
-            <span className="font-medium">Specialized Treatment Approach</span>
-          </div>
-          <h1 className="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
+      <Hero
+        title={
+          <>
             Cleft Palate
             <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent block">
               Speech Therapy
             </span>
-          </h1>
-          <p className="text-xl lg:text-2xl mb-8 text-blue-100 max-w-4xl mx-auto leading-relaxed">
-            Understanding the unique speech challenges of cleft palate and how specialized therapy 
-            transforms communication abilities through evidence-based treatment approaches.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
-              <CheckCircle className="w-5 h-5 mr-2" />
-              <span>Evidence-Based Methods</span>
-            </div>
-            <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
-              <Target className="w-5 h-5 mr-2" />
-              <span>Individualized Plans</span>
-            </div>
-            <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
-              <Heart className="w-5 h-5 mr-2" />
-              <span>Family-Centered Care</span>
-            </div>
-          </div>
-        </div>
-      </section>
+          </>
+        }
+        description="Understanding the unique speech challenges of cleft palate and how specialized therapy transforms communication abilities through evidence-based treatment approaches."
+        badge={
+          <>
+            <Activity className="w-5 h-5 mr-2" />
+            <span className="font-medium">Specialized Treatment Approach</span>
+          </>
+        }
+        badges={[
+          <>
+            <CheckCircle className="w-5 h-5 mr-2" />
+            <span>Evidence-Based Methods</span>
+          </>,
+          <>
+            <Target className="w-5 h-5 mr-2" />
+            <span>Individualized Plans</span>
+          </>,
+          <>
+            <Heart className="w-5 h-5 mr-2" />
+            <span>Family-Centered Care</span>
+          </>
+        ]}
+        className="bg-gradient-to-r from-blue-600 via-teal-600 to-green-600"
+      />
 
-      <div className="max-w-6xl mx-auto px-4 py-16">
+      <Container>
+        <div className="py-16">
         {/* Understanding Cleft Palate Speech */}
         <section className="mb-20">
           <div className="text-center mb-16">
@@ -301,29 +302,37 @@ const Therapy = () => {
           </div>
         </section>
 
-        {/* Call to Action */}
-        <section className="text-center">
-          <div className="bg-gradient-to-r from-teal-600 via-blue-600 to-purple-700 rounded-2xl p-8 lg:p-12 text-white relative overflow-hidden">
+        <Section>
+          <Card className="bg-gradient-to-r from-teal-600 via-blue-600 to-purple-700 text-white relative overflow-hidden text-center" padding="xl">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative">
-              <Book className="w-16 h-16 mx-auto mb-6 text-yellow-300" />
-              <h2 className="text-4xl font-bold mb-4">Start Your Specialized Treatment</h2>
-              <p className="text-xl mb-8 max-w-3xl mx-auto text-blue-100">
+              <Book className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-6 text-yellow-300" />
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4 px-4 sm:px-0">Start Your Specialized Treatment</h2>
+              <p className="text-lg sm:text-xl mb-8 max-w-3xl mx-auto text-blue-100 px-4 sm:px-0">
                 Don't let speech challenges hold you back. Our specialized cleft palate therapy 
                 program is designed to help you achieve clear, confident communication.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="px-8 py-4 bg-white text-teal-700 rounded-lg font-semibold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 sm:px-0">
+                <Button
+                  variant="white"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                >
                   Schedule Evaluation
-                </button>
-                <button className="px-8 py-4 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-teal-700 transition-all duration-300">
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                >
                   Download Treatment Guide
-                </button>
+                </Button>
               </div>
             </div>
-          </div>
-        </section>
-      </div>
+          </Card>
+        </Section>
+        </div>
+      </Container>
     </div>
   );
 };

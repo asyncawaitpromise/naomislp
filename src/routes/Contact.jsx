@@ -1,5 +1,11 @@
 import { Phone, Mail, MapPin, Clock, MessageSquare, Calendar, CheckCircle, Send } from 'react-feather';
 import { useState } from 'react';
+import Hero from '../components/Hero';
+import Container from '../components/Container';
+import Section from '../components/Section';
+import Card from '../components/Card';
+import Button from '../components/Button';
+import SectionHeader from '../components/SectionHeader';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -55,30 +61,27 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-700 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative max-w-6xl mx-auto px-4 text-center">
-          <MessageSquare className="w-20 h-20 mx-auto mb-6 text-yellow-300" />
-          <h1 className="text-5xl lg:text-6xl font-bold mb-6">Get in Touch</h1>
-          <p className="text-xl lg:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
-            Ready to start your journey to clearer communication? Contact us today to schedule 
-            your free consultation and learn how we can help.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
-              <CheckCircle className="w-5 h-5 mr-2" />
-              <span>Free Consultation</span>
-            </div>
-            <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
-              <Clock className="w-5 h-5 mr-2" />
-              <span>Quick Response</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero
+        title="Get in Touch"
+        description="Ready to start your journey to clearer communication? Contact us today to schedule your free consultation and learn how we can help."
+        badge={
+          <MessageSquare className="w-16 h-16 sm:w-20 sm:h-20 text-yellow-300" />
+        }
+        badges={[
+          <>
+            <CheckCircle className="w-5 h-5 mr-2" />
+            <span>Free Consultation</span>
+          </>,
+          <>
+            <Clock className="w-5 h-5 mr-2" />
+            <span>Quick Response</span>
+          </>
+        ]}
+        className="bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-700"
+      />
 
-      <div className="max-w-6xl mx-auto px-4 py-16">
+      <Container>
+        <div className="py-16">
         {/* Contact Methods */}
         <section className="mb-20">
           <div className="text-center mb-16">
@@ -180,13 +183,15 @@ const Contact = () => {
                   ></textarea>
                 </div>
 
-                <button
+                <Button
                   type="submit"
-                  className="w-full px-8 py-4 bg-gradient-to-r from-teal-600 to-blue-700 text-white rounded-lg font-semibold hover:from-teal-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-300 shadow-lg flex items-center justify-center"
+                  variant="primary"
+                  size="lg"
+                  icon={<Send className="w-5 h-5" />}
+                  fullWidth
                 >
-                  <Send className="w-5 h-5 mr-2" />
                   Send Message
-                </button>
+                </Button>
               </form>
             </div>
 
@@ -218,14 +223,22 @@ const Contact = () => {
               <div className="bg-gradient-to-br from-teal-600 to-blue-700 rounded-2xl p-8 text-white">
                 <h3 className="text-2xl font-bold mb-6">Ready to Get Started?</h3>
                 <div className="space-y-4">
-                  <button className="w-full px-6 py-3 bg-white text-teal-700 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 flex items-center justify-center">
-                    <Calendar className="w-5 h-5 mr-2" />
+                  <Button
+                    variant="white"
+                    size="md"
+                    icon={<Calendar className="w-5 h-5" />}
+                    fullWidth
+                  >
                     Schedule Free Consultation
-                  </button>
-                  <button className="w-full px-6 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-teal-700 transition-all duration-300 flex items-center justify-center">
-                    <Phone className="w-5 h-5 mr-2" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    icon={<Phone className="w-5 h-5" />}
+                    fullWidth
+                  >
                     Call Now: (555) 123-4567
-                  </button>
+                  </Button>
                 </div>
                 <p className="text-sm text-blue-100 mt-4 text-center">
                   Most insurance plans accepted • Free insurance verification
@@ -272,7 +285,8 @@ const Contact = () => {
             </div>
           </div>
         </section>
-      </div>
+        </div>
+      </Container>
     </div>
   );
 };

@@ -1,4 +1,10 @@
 import { Award, BookOpen, Users, Heart, Star, Shield, Briefcase, Clock, Target, CheckCircle } from 'react-feather';
+import Hero from '../components/Hero';
+import Container from '../components/Container';
+import Section from '../components/Section';
+import Card from '../components/Card';
+import Button from '../components/Button';
+import SectionHeader from '../components/SectionHeader';
 
 const About = () => {
   const achievements = [
@@ -27,60 +33,38 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-700 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-500/30 to-transparent"></div>
-        <div className="relative max-w-6xl mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="flex-1">
-              <div className="inline-flex items-center px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full mb-6">
-                <Star className="w-4 h-4 mr-2" />
-                <span className="text-sm font-medium">Expert Speech-Language Pathologist</span>
-              </div>
-              <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Meet 
-                <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent"> Naomi</span>
-              </h1>
-              <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
-                A passionate advocate for clear communication, specializing in transforming the lives 
-                of individuals with cleft palate through evidence-based speech therapy.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
-                  <Shield className="w-5 h-5 mr-2" />
-                  <span>Licensed Professional</span>
-                </div>
-                <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
-                  <Users className="w-5 h-5 mr-2" />
-                  <span>500+ Families Served</span>
-                </div>
-                <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
-                  <Clock className="w-5 h-5 mr-2" />
-                  <span>10+ Years Experience</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex-1 flex justify-center">
-              <div className="relative">
-                <div className="w-80 h-80 bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
-                  <div className="w-64 h-64 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Heart className="w-32 h-32 text-white/80" />
-                  </div>
-                </div>
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center animate-pulse">
-                  <Award className="w-12 h-12 text-white" />
-                </div>
-                <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-gradient-to-br from-green-400 to-teal-500 rounded-full flex items-center justify-center animate-bounce">
-                  <Star className="w-10 h-10 text-white" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero
+        title={
+          <>
+            Meet 
+            <span className="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent"> Naomi</span>
+          </>
+        }
+        description="A passionate advocate for clear communication, specializing in transforming the lives of individuals with cleft palate through evidence-based speech therapy."
+        badge={
+          <>
+            <Star className="w-4 h-4 mr-2" />
+            <span className="text-sm font-medium">Expert Speech-Language Pathologist</span>
+          </>
+        }
+        badges={[
+          <>
+            <Shield className="w-5 h-5 mr-2" />
+            <span>Licensed Professional</span>
+          </>,
+          <>
+            <Users className="w-5 h-5 mr-2" />
+            <span>500+ Families Served</span>
+          </>,
+          <>
+            <Clock className="w-5 h-5 mr-2" />
+            <span>10+ Years Experience</span>
+          </>
+        ]}
+      />
 
-      <div className="max-w-6xl mx-auto px-4 py-16">
+      <Container>
+        <div className="py-16">
         {/* Professional Journey */}
         <section className="mb-20">
           <div className="text-center mb-16">
@@ -244,25 +228,33 @@ const About = () => {
           </div>
         </section>
 
-        {/* Call to Action */}
-        <section className="text-center">
-          <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-lg border border-gray-100">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Ready to Begin Your Journey?</h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        <Section>
+          <Card padding="xl" className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Ready to Begin Your Journey?</h2>
+            <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto px-4 sm:px-0">
               Experience the difference that specialized expertise and compassionate care can make. 
               Schedule your consultation today and take the first step toward clearer communication.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-gradient-to-r from-teal-600 to-blue-700 text-white rounded-lg font-semibold hover:from-teal-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-300 shadow-lg">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 sm:px-0">
+              <Button
+                variant="primary"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
                 Schedule Free Consultation
-              </button>
-              <button className="px-8 py-4 border-2 border-teal-600 text-teal-600 rounded-lg font-semibold hover:bg-teal-50 transition-all duration-300">
+              </Button>
+              <Button
+                variant="secondary"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
                 Download Credentials
-              </button>
+              </Button>
             </div>
-          </div>
-        </section>
-      </div>
+          </Card>
+        </Section>
+        </div>
+      </Container>
     </div>
   );
 };
