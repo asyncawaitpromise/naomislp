@@ -1,11 +1,14 @@
-import { Phone, Mail, MapPin, Clock, MessageSquare, Calendar, CheckCircle, Send } from 'react-feather';
-import { useState } from 'react';
+import { Phone, Mail, MapPin, Clock, MessageSquare, Calendar, CheckCircle, Send, Loader, AlertCircle } from 'react-feather';
+import { useState, useEffect } from 'react';
 import Hero from '../components/Hero';
 import Container from '../components/Container';
 import Section from '../components/Section';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import SectionHeader from '../components/SectionHeader';
+import FormInput from '../components/FormInput';
+import FormSelect from '../components/FormSelect';
+import FormTextarea from '../components/FormTextarea';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -16,18 +19,133 @@ const Contact = () => {
     serviceType: ''
   });
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case 'name':
+        if (!value.trim()) return 'Full name is required';
+        if (value.trim().length < 2) return 'Name must be at least 2 characters';
+        if (!/^[a-zA-Z\s'-]+$/.test(value)) return 'Name can only contain letters, spaces, hyphens, and apostrophes';
+        return '';
+      
+      case 'email':
+        if (!value.trim()) return 'Email address is required';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return 'Please enter a valid email address';
+        return '';
+      
+      case 'phone':
+        if (value && !/^[\d\s\(\)\+\-\.\x20]+$/.test(value)) return 'Please enter a valid phone number';
+        return '';
+      
+      case 'message':
+        if (!value.trim()) return 'Message is required';
+        if (value.trim().length < 10) return 'Message must be at least 10 characters';
+        return '';
+      
+      default:
+        return '';
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    
+    // Real-time validation
+    if (touched[name]) {
+      const error = validateField(name, value);
+      setErrors(prev => ({
+        ...prev,
+        [name]: error
+      }));
+    }
   };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    
+    const error = validateField(name, value);
+    setErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError('');
+    
+    // Validate all fields
+    const newErrors = {};
+    Object.keys(formData).forEach(key => {
+      if (key !== 'phone' && key !== 'serviceType') { // phone and serviceType are optional
+        const error = validateField(key, formData[key]);
+        if (error) newErrors[key] = error;
+      }
+    });
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setTouched(Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
+      setIsSubmitting(false);
+      return;
+    }
+    
+    try {
+      // Simulate form submission
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setSubmitSuccess(true);
+      setFormData({ name: '', email: '', phone: '', message: '', serviceType: '' });
+      setErrors({});
+      setTouched({});
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (error) {
+      setSubmitError('Failed to send message. Please try again or call us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Auto-save to localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('contactFormData');
+    if (saved) {
+      try {
+        const parsedData = JSON.parse(saved);
+        setFormData(prev => ({ ...prev, ...parsedData }));
+      } catch (e) {
+        // Ignore invalid JSON
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Object.values(formData).some(value => value)) {
+      localStorage.setItem('contactFormData', JSON.stringify(formData));
+    }
+  }, [formData]);
+
+  const serviceOptions = [
+    { value: 'evaluation', label: 'Comprehensive Evaluation ($425)' },
+    { value: 'therapy', label: 'Individual Therapy ($175/session)' },
+    { value: 'family', label: 'Family Training ($150/session)' },
+    { value: 'consultation', label: 'Free Consultation (15 minutes)' }
+  ];
 
   const contactMethods = [
     {
@@ -110,104 +228,185 @@ const Contact = () => {
 
         {/* Contact Form and Info */}
         <section className="mb-20">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Contact Form */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Send us a Message</h3>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300"
-                      placeholder="Your full name"
-                    />
+            <Card padding="lg" className="order-2 lg:order-1">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold text-gray-800">Send us a Message</h3>
+                {submitSuccess && (
+                  <div className="flex items-center text-green-600">
+                    <CheckCircle size={20} className="mr-2" />
+                    <span className="text-sm font-medium">Message sent!</span>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300"
-                      placeholder="your.email@example.com"
-                    />
+                )}
+              </div>
+              
+              {submitSuccess && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
+                  <div className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="text-green-800 font-semibold mb-1">Message sent successfully!</h4>
+                      <p className="text-green-700 text-sm">
+                        Thank you for reaching out. We'll respond within 24 hours. For urgent matters, please call us directly.
+                      </p>
+                    </div>
                   </div>
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
+              )}
+              
+              {submitError && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                  <div className="flex items-start">
+                    <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
+                    <div>
+                      <h4 className="text-red-800 font-semibold mb-1">Message failed to send</h4>
+                      <p className="text-red-700 text-sm">{submitError}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                {/* Mobile-first: Single column on small screens */}
+                <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6">
+                  <FormInput
+                    label="Full Name"
+                    type="text"
+                    name="name"
+                    value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300"
-                    placeholder="(555) 123-4567"
+                    onBlur={handleBlur}
+                    placeholder="Your full name"
+                    required
+                    error={touched.name ? errors.name : ''}
+                    success={touched.name && !errors.name && formData.name ? 'Looks good!' : ''}
+                    autoComplete="name"
+                    maxLength={50}
+                  />
+                  
+                  <FormInput
+                    label="Email Address"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    placeholder="your.email@example.com"
+                    required
+                    error={touched.email ? errors.email : ''}
+                    success={touched.email && !errors.email && formData.email ? 'Looks good!' : ''}
+                    autoComplete="email"
+                    inputMode="email"
                   />
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Service Interest</label>
-                  <select
-                    name="serviceType"
-                    value={formData.serviceType}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300"
+                
+                <FormInput
+                  label="Phone Number"
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  placeholder="(555) 123-4567"
+                  error={touched.phone ? errors.phone : ''}
+                  success={touched.phone && !errors.phone && formData.phone ? 'Looks good!' : ''}
+                  helpText="Optional - We'll use this for scheduling calls"
+                  autoComplete="tel"
+                  inputMode="tel"
+                />
+                
+                <FormSelect
+                  label="Service Interest"
+                  name="serviceType"
+                  value={formData.serviceType}
+                  onChange={handleInputChange}
+                  options={serviceOptions}
+                  placeholder="Select a service (optional)"
+                  helpText="Help us prepare for your consultation"
+                />
+                
+                <FormTextarea
+                  label="Message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  placeholder="Tell us about your needs, questions, or current challenges. Include any relevant medical history or previous therapy experience."
+                  required
+                  error={touched.message ? errors.message : ''}
+                  success={touched.message && !errors.message && formData.message ? 'Great detail!' : ''}
+                  rows={5}
+                  maxLength={1000}
+                  showCounter
+                  helpText="Be as detailed as possible to help us understand your needs"
+                />
+                
+                <div className="pt-4">
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    icon={isSubmitting ? <Loader className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                    fullWidth
+                    disabled={isSubmitting || Object.keys(errors).some(key => errors[key])}
+                    className="disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <option value="">Select a service</option>
-                    <option value="evaluation">Comprehensive Evaluation</option>
-                    <option value="therapy">Individual Therapy</option>
-                    <option value="family">Family Training</option>
-                    <option value="consultation">Free Consultation</option>
-                  </select>
+                    {isSubmitting ? 'Sending Message...' : 'Send Message'}
+                  </Button>
+                  
+                  <p className="text-sm text-gray-600 mt-3 text-center">
+                    By submitting this form, you agree to our privacy policy. We'll never share your information.
+                  </p>
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Message *</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-300"
-                    placeholder="Tell us about your needs or questions..."
-                  ></textarea>
-                </div>
-
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  icon={<Send className="w-5 h-5" />}
-                  fullWidth
-                >
-                  Send Message
-                </Button>
               </form>
-            </div>
+            </Card>
 
             {/* Office Information */}
-            <div className="space-y-8">
-              {/* Office Hours */}
-              <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                <div className="flex items-center mb-6">
-                  <Clock className="w-8 h-8 text-teal-600 mr-3" />
-                  <h3 className="text-2xl font-bold text-gray-800">Office Hours</h3>
-                </div>
+            <div className="space-y-6 lg:space-y-8 order-1 lg:order-2">
+              {/* Quick Actions - Mobile Priority */}
+              <Card className="bg-gradient-to-br from-teal-600 to-blue-700 text-white" padding="lg">
+                <h3 className="text-xl sm:text-2xl font-bold mb-6">Ready to Get Started?</h3>
                 <div className="space-y-4">
+                  <Button
+                    variant="white"
+                    size="lg"
+                    icon={<Calendar className="w-5 h-5" />}
+                    fullWidth
+                    className="text-base sm:text-lg font-semibold py-4"
+                  >
+                    Schedule Free Consultation
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    icon={<Phone className="w-5 h-5" />}
+                    fullWidth
+                    className="text-base sm:text-lg font-semibold py-4"
+                  >
+                    Call Now: (555) 123-4567
+                  </Button>
+                </div>
+                <div className="mt-6 p-4 bg-white/10 rounded-lg">
+                  <p className="text-sm text-blue-100 text-center font-medium">
+                    ✓ Most insurance plans accepted<br/>
+                    ✓ Free insurance verification<br/>
+                    ✓ Same-day response guaranteed
+                  </p>
+                </div>
+              </Card>
+
+              {/* Office Hours */}
+              <Card padding="lg">
+                <div className="flex items-center mb-6">
+                  <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-teal-600 mr-3" />
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800">Office Hours</h3>
+                </div>
+                <div className="space-y-3 sm:space-y-4">
                   {officeHours.map((schedule, index) => (
                     <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
-                      <span className="font-medium text-gray-700">{schedule.day}</span>
-                      <span className="text-gray-600">{schedule.hours}</span>
+                      <span className="font-medium text-gray-700 text-sm sm:text-base">{schedule.day}</span>
+                      <span className="text-gray-600 text-sm sm:text-base font-medium">{schedule.hours}</span>
                     </div>
                   ))}
                 </div>
@@ -217,56 +416,35 @@ const Contact = () => {
                     please call our main number. Voicemail is monitored regularly.
                   </p>
                 </div>
-              </div>
-
-              {/* Quick Actions */}
-              <div className="bg-gradient-to-br from-teal-600 to-blue-700 rounded-2xl p-8 text-white">
-                <h3 className="text-2xl font-bold mb-6">Ready to Get Started?</h3>
-                <div className="space-y-4">
-                  <Button
-                    variant="white"
-                    size="md"
-                    icon={<Calendar className="w-5 h-5" />}
-                    fullWidth
-                  >
-                    Schedule Free Consultation
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="md"
-                    icon={<Phone className="w-5 h-5" />}
-                    fullWidth
-                  >
-                    Call Now: (555) 123-4567
-                  </Button>
-                </div>
-                <p className="text-sm text-blue-100 mt-4 text-center">
-                  Most insurance plans accepted • Free insurance verification
-                </p>
-              </div>
+              </Card>
 
               {/* Insurance Info */}
-              <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Insurance & Payment</h3>
+              <Card padding="lg">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Insurance & Payment</h3>
                 <div className="space-y-3">
                   <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span className="text-gray-700">Most major insurance plans accepted</span>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 text-sm sm:text-base">Most major insurance plans accepted</span>
                   </div>
                   <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span className="text-gray-700">Payment plans available</span>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 text-sm sm:text-base">Payment plans available</span>
                   </div>
                   <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span className="text-gray-700">HSA/FSA accepted</span>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 text-sm sm:text-base">HSA/FSA accepted</span>
                   </div>
                   <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3" />
-                    <span className="text-gray-700">Free insurance verification</span>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 text-sm sm:text-base">Free insurance verification</span>
                   </div>
                 </div>
-              </div>
+                <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <p className="text-sm text-yellow-800 font-medium">
+                    💡 Tip: Call us for a free insurance verification before your first visit!
+                  </p>
+                </div>
+              </Card>
             </div>
           </div>
         </section>
