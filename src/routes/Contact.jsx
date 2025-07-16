@@ -142,9 +142,12 @@ const Contact = () => {
   }, [formData]);
 
   const serviceOptions = [
-    { value: 'evaluation', label: 'Comprehensive Evaluation ($425)' },
-    { value: 'therapy', label: 'Individual Therapy ($175/session)' },
-    { value: 'family', label: 'Family Training ($150/session)' },
+    { value: 'adult-speech', label: 'Adult Speech Therapy' },
+    { value: 'pediatric-speech', label: 'Pediatric Speech Therapy' },
+    { value: 'language-assessment', label: 'Language Assessment' },
+    { value: 'articulation-therapy', label: 'Articulation Therapy' },
+    { value: 'voice-therapy', label: 'Voice Therapy' },
+    { value: 'stuttering-treatment', label: 'Stuttering Treatment' },
     { value: 'consultation', label: 'Free Consultation (15 minutes)' }
   ];
 
@@ -239,21 +242,23 @@ const Contact = () => {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Contact Form */}
             <Card padding="lg" className="order-2 lg:order-1">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-gray-800">Send us a Message</h3>
-                {submitSuccess && (
-                  <div className="flex items-center text-green-600">
-                    <CheckCircle size={20} className="mr-2" />
-                    <span className="text-sm font-medium">Message sent!</span>
-                  </div>
-                )}
+              {/* Header Section with Branding */}
+              <div className="text-center mb-8 pb-6 border-b border-gray-100">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-teal-500 to-blue-600 rounded-full mb-4">
+                  <MessageSquare className="w-8 h-8 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">Naomi's Speech Therapy</h2>
+                <p className="text-gray-600 text-lg">Send us a message and we'll respond within 24 hours</p>
               </div>
               
               {submitSuccess && (
-                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg animate-pulse">
                   <div className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                    <p className="text-green-800 text-sm font-medium">Message sent! We'll respond within 24 hours.</p>
+                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                    <div>
+                      <p className="text-green-800 text-sm font-semibold">Message sent successfully!</p>
+                      <p className="text-green-700 text-xs mt-1">We'll respond within 24 hours. Next: Check your email for confirmation.</p>
+                    </div>
                   </div>
                 </div>
               )}
@@ -267,90 +272,129 @@ const Contact = () => {
                 </div>
               )}
               
-              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                {/* Enhanced inline layout */}
-                <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
-                  <FormInput
-                    label="Full Name"
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                    placeholder="Your full name"
-                    required
-                    error={touched.name ? errors.name : ''}
-                    success={touched.name && !errors.name && formData.name ? 'Looks good!' : ''}
-                    autoComplete="name"
-                    maxLength={50}
-                    compact={true}
-                  />
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                {/* Contact Information Section */}
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    Contact Information
+                  </h3>
+                  <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
+                    <FormInput
+                      label="Full Name"
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+                      placeholder="Enter your full name"
+                      required
+                      error={touched.name ? errors.name : ''}
+                      success={touched.name && !errors.name && formData.name ? 'Looks good!' : ''}
+                      autoComplete="name"
+                      maxLength={50}
+                      compact={true}
+                      aria-describedby="name-help"
+                    />
+                    
+                    <FormInput
+                      label="Email Address"
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+                      placeholder="your.email@example.com"
+                      required
+                      error={touched.email ? errors.email : ''}
+                      success={touched.email && !errors.email && formData.email ? 'Looks good!' : ''}
+                      autoComplete="email"
+                      inputMode="email"
+                      compact={true}
+                      aria-describedby="email-help"
+                    />
+                  </div>
                   
-                  <FormInput
-                    label="Email Address"
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                    placeholder="your.email@example.com"
-                    required
-                    error={touched.email ? errors.email : ''}
-                    success={touched.email && !errors.email && formData.email ? 'Looks good!' : ''}
-                    autoComplete="email"
-                    inputMode="email"
-                    compact={true}
-                  />
+                  <div className="mt-4 space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
+                    <FormInput
+                      label="Phone Number"
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      onBlur={handleBlur}
+                      placeholder="(555) 123-4567"
+                      error={touched.phone ? errors.phone : ''}
+                      success={touched.phone && !errors.phone && formData.phone ? 'Looks good!' : ''}
+                      helpText="Optional - for faster response"
+                      autoComplete="tel"
+                      inputMode="tel"
+                      compact={true}
+                      aria-describedby="phone-help"
+                    />
+                    
+                    <div className="flex items-center space-x-3 pt-6">
+                      <div className="flex-1">
+                        <span className="text-sm text-gray-600">Prefer to call directly?</span>
+                      </div>
+                      <a
+                        href="tel:+15551234567"
+                        className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-teal-500 to-blue-600 text-white rounded-lg font-medium hover:from-teal-600 hover:to-blue-700 transition-colors"
+                      >
+                        <Phone className="w-4 h-4 mr-2" />
+                        Call Now
+                      </a>
+                    </div>
+                  </div>
                 </div>
-                
-                <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4">
-                  <FormInput
-                    label="Phone Number"
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                    placeholder="(555) 123-4567"
-                    error={touched.phone ? errors.phone : ''}
-                    success={touched.phone && !errors.phone && formData.phone ? 'Looks good!' : ''}
-                    helpText="Optional"
-                    autoComplete="tel"
-                    inputMode="tel"
-                    compact={true}
-                  />
-                  
+
+                {/* Service Selection Section */}
+                <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-lg p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <div className="w-2 h-2 bg-teal-500 rounded-full mr-3"></div>
+                    Service Selection
+                  </h3>
                   <FormSelect
-                    label="Service Interest"
+                    label="Which service are you interested in?"
                     name="serviceType"
                     value={formData.serviceType}
                     onChange={handleInputChange}
                     options={serviceOptions}
-                    placeholder="Select service (optional)"
-                    helpText="Help us prepare"
+                    placeholder="Select a service to help us prepare for your consultation"
+                    helpText="Optional - helps us prepare better for your consultation"
                     compact={true}
+                    aria-describedby="service-help"
+                  />
+                </div>
+
+                {/* Message Section */}
+                <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
+                    Tell Us About Your Needs
+                  </h3>
+                  <FormTextarea
+                    label="Your Message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    placeholder="Please describe your current challenges, goals, or questions. Include any relevant medical history, previous therapy experience, or specific concerns you'd like to address."
+                    required
+                    error={touched.message ? errors.message : ''}
+                    success={touched.message && !errors.message && formData.message ? 'Great detail!' : ''}
+                    rows={4}
+                    maxLength={1000}
+                    showCounter
+                    helpText="The more detail you provide, the better we can help you"
+                    autoResize={true}
+                    compact={true}
+                    aria-describedby="message-help"
                   />
                 </div>
                 
-                <FormTextarea
-                  label="Message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  placeholder="Tell us about your needs, questions, or current challenges. Include any relevant medical history or previous therapy experience."
-                  required
-                  error={touched.message ? errors.message : ''}
-                  success={touched.message && !errors.message && formData.message ? 'Great detail!' : ''}
-                  rows={3}
-                  maxLength={1000}
-                  showCounter
-                  helpText="Be as detailed as possible"
-                  autoResize={true}
-                  compact={true}
-                />
-                
-                <div className="pt-4">
+                {/* Submit Section */}
+                <div className="pt-6 border-t border-gray-200">
                   <Button
                     type="submit"
                     variant="primary"
@@ -358,12 +402,18 @@ const Contact = () => {
                     icon={isSubmitting ? <Loader className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
                     fullWidth
                     disabled={isSubmitting || Object.keys(errors).some(key => errors[key])}
-                    className="disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 transition-transform"
                   >
                     {isSubmitting ? 'Sending Message...' : 'Send Message'}
                   </Button>
                   
-                  <p className="text-sm text-gray-600 mt-3 text-center">
+                  <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                    <p className="text-sm text-blue-800 text-center">
+                      <strong>What happens next:</strong> We'll respond within 24 hours with next steps and schedule your free consultation.
+                    </p>
+                  </div>
+                  
+                  <p className="text-xs text-gray-500 mt-3 text-center">
                     By submitting this form, you agree to our privacy policy. We'll never share your information.
                   </p>
                 </div>
