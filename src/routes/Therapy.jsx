@@ -5,6 +5,7 @@ import Section from '../components/Section';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import SectionHeader from '../components/SectionHeader';
+import SEOHead from '../components/SEOHead';
 
 const Therapy = () => {
   const treatmentStages = [
@@ -91,6 +92,13 @@ const Therapy = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
+      <SEOHead
+        title="Cleft Palate Speech Therapy Treatment | Evidence-Based Methods"
+        description="Learn about specialized cleft palate speech therapy techniques. Evidence-based treatment for hypernasality, articulation errors, and nasal air emission. Age-appropriate therapy from birth to adult."
+        keywords="cleft palate speech therapy, hypernasality treatment, articulation therapy, nasal air emission, resonance management, speech therapy techniques, evidence-based treatment, oral-motor therapy"
+        canonical="/therapy"
+        type="article"
+      />
       <Hero
         title={
           <>

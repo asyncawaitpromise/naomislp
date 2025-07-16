@@ -8,10 +8,18 @@ import Button from '../components/Button';
 import ServiceCard from '../components/ServiceCard';
 import SectionHeader from '../components/SectionHeader';
 import Testimonial from '../components/Testimonial';
+import SEOHead from '../components/SEOHead';
 
 const Homepage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-teal-50 relative overflow-hidden">
+      <SEOHead
+        title="Naomi's Speech Therapy - Expert Cleft Palate Treatment | ASHA Certified SLP"
+        description="Expert cleft palate speech therapy by licensed SLP Naomi. ASHA certified with 10+ years experience. Comprehensive evaluations ($425), individual therapy ($175), and family training ($150) available."
+        keywords="cleft palate speech therapy, speech language pathologist, articulation therapy, resonance management, ASHA certified SLP, speech evaluation, family training, cleft palate treatment, speech disorders"
+        canonical="/"
+        type="website"
+      />
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-teal-400/20 to-blue-400/20 rounded-full blur-3xl animate-pulse"></div>

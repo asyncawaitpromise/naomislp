@@ -9,6 +9,7 @@ import SectionHeader from '../components/SectionHeader';
 import FormInput from '../components/FormInput';
 import FormSelect from '../components/FormSelect';
 import FormTextarea from '../components/FormTextarea';
+import SEOHead from '../components/SEOHead';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -179,6 +180,13 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
+      <SEOHead
+        title="Contact Naomi's Speech Therapy | Schedule Free Consultation"
+        description="Contact expert speech therapist Naomi for cleft palate treatment. Schedule your free consultation today. Call (555) 123-4567 or send a message. Most insurance plans accepted."
+        keywords="contact speech therapist, schedule speech therapy consultation, cleft palate therapy appointment, speech therapy contact, insurance accepted, free consultation"
+        canonical="/contact"
+        type="website"
+      />
       <Hero
         title="Get in Touch"
         description="Ready to start your journey to clearer communication? Contact us today to schedule your free consultation and learn how we can help."

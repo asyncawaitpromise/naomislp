@@ -5,6 +5,7 @@ import Section from '../components/Section';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import SectionHeader from '../components/SectionHeader';
+import SEOHead from '../components/SEOHead';
 
 const About = () => {
   const achievements = [
@@ -33,6 +34,13 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
+      <SEOHead
+        title="About Naomi - Expert Speech-Language Pathologist | 10+ Years Experience"
+        description="Meet Naomi, M.S., CCC-SLP - Licensed speech-language pathologist with 10+ years specializing in cleft palate therapy. ASHA certified, ACPA member, 500+ families helped."
+        keywords="Naomi speech therapist, speech language pathologist credentials, ASHA certified SLP, cleft palate specialist, CCC-SLP, ACPA member, speech therapy experience"
+        canonical="/about"
+        type="profile"
+      />
       <Hero
         title={
           <>

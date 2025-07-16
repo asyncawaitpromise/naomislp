@@ -65,6 +65,21 @@ src/
 - `/help` → Reference page
 - `*` → 404 page with styled error message
 
+## SEO and Social Media
+
+The project includes comprehensive SEO optimization:
+
+- **SEOHead Component**: Dynamic meta tag management for each page
+- **Social Media Support**: Open Graph, Twitter Cards, WhatsApp, Discord, TikTok, iMessage
+- **Structured Data**: JSON-LD schema for healthcare providers
+- **Performance**: Preconnect links, optimized meta tags
+- **PWA Support**: Web app manifest for mobile installation
+
+### SEO Files
+- `public/robots.txt` - Search engine crawling rules
+- `public/sitemap.xml` - Site structure for search engines
+- `public/site.webmanifest` - Progressive Web App configuration
+
 ## Deployment
 
 The project includes deployment configuration for CapRover (see `public/captain-definition`) and nginx configuration (`public/nginx.conf`). The `tbuild` script creates a production build and packages it as a tar archive.
