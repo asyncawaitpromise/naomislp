@@ -1,4 +1,4 @@
-import { Heart, Phone, Mail, MapPin, Award, Clock, DollarSign, CheckCircle, User, MessageCircle, Calendar, Star, CreditCard, Shield, Sparkles, TrendingUp, Zap } from 'react-feather';
+import { Heart, Phone, Mail, MapPin, Award, Clock, DollarSign, CheckCircle, User, MessageCircle, Calendar, Star, CreditCard, Shield, TrendingUp, Zap } from 'react-feather';
 import { Link } from 'react-router-dom';
 
 const Homepage = () => {
@@ -21,7 +21,7 @@ const Homepage = () => {
         </div>
         <div className="relative max-w-6xl mx-auto px-4 text-center">
           <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full mb-8 animate-fade-in">
-            <Sparkles className="w-5 h-5 mr-2 text-yellow-300" />
+            <Star className="w-5 h-5 mr-2 text-yellow-300" />
             <span className="font-medium">Transform Your Communication Journey</span>
           </div>
           <h1 className="text-6xl lg:text-8xl font-bold mb-6 leading-tight animate-slide-up">

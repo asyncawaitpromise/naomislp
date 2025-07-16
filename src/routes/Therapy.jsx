@@ -1,4 +1,4 @@
-import { Brain, Heart, Users, Clock, Target, CheckCircle, AlertCircle, Book, Mic, Activity, Zap, Layers, TrendingUp } from 'react-feather';
+import { Heart, Users, Clock, Target, CheckCircle, AlertCircle, Book, Mic, Activity, Zap, Layers, TrendingUp } from 'react-feather';
 
 const Therapy = () => {
   const treatmentStages = [
@@ -63,7 +63,7 @@ const Therapy = () => {
       techniques: ["CPAP therapy", "Speech appliances", "Biofeedback training", "Nasometry monitoring"]
     },
     {
-      icon: Brain,
+      icon: Activity,
       title: "Oral-Motor Therapy",
       description: "Exercises to improve strength and coordination of speech muscles",
       techniques: ["Lip strengthening", "Tongue mobility", "Soft palate exercises", "Breath support training"]
@@ -94,7 +94,7 @@ const Therapy = () => {
         </div>
         <div className="relative max-w-6xl mx-auto px-4 text-center">
           <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full mb-8">
-            <Brain className="w-5 h-5 mr-2" />
+            <Activity className="w-5 h-5 mr-2" />
             <span className="font-medium">Specialized Treatment Approach</span>
           </div>
           <h1 className="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
