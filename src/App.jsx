@@ -5,7 +5,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<>Working!!!</>} />
+        <Route path="/" element={<>Coming Soon</>} />
         <Route path="/help" element={<Reference />} />
         <Route path="*" element={<>Error!!!</>} />
       </Routes>
